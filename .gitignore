@@ -1,0 +1,15 @@
+# Node.js & ReactJS
+node_modules/
+build/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+# Misc
+.DS_Store
+*.log
