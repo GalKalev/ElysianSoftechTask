@@ -1,0 +1,109 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px 24px 24px 0px;
+    background-color: #fff;
+    padding: 3vw;
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .form-container{
+        border-radius: 0px 0px 24px 24px;
+    }
+  }
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #3949AB;
+
+}
+
+.email-input .MuiOutlinedInput-root {
+    border-radius: 8px;
+    border-color: #ccc;
+}
+
+.email-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #888;
+}
+
+.email-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #5769D4;
+    box-shadow: 0 0 0 4px rgba(87, 105, 212, 0.2);
+}
+
+.email-input .MuiInputLabel-root.Mui-focused {
+    color: #5769D4;
+}
+
+.forgot-btn-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.forgot-btn {
+    color: #5769D4;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16.8px;
+    text-align: right;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    background-color: transparent;
+    border: none;
+    right: 0;
+    margin-bottom: 25px;
+}
+
+.forgot-btn:disabled,
+.forgot-btn:disabled:hover {
+    color: #5769D466;
+    cursor: not-allowed;
+}
+
+.forgot-btn:hover {
+    color: #3949AB;
+    cursor: pointer;
+}
+
+.log-in-btn-container {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.log-in-btn {
+    width: 120%;
+    height: 3.5vh;
+    padding: 16px 4px;
+    border-radius: 40px;
+    color: #fff;
+    background-color: #3949AB;
+    border: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Lato';
+}
+
+.log-in-btn:hover {
+    background-color: #27368F;
+}
+
+.log-in-btn:disabled,
+.log-in-btn:disabled:hover {
+    cursor: not-allowed;
+    background-color: #a9b1e3;
+}
+
