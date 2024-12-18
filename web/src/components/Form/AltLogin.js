@@ -43,16 +43,6 @@ function AltLogin() {
         </button>
       </Box>
 
-      <Box className='register-container'>
-        <p className='register-text'>Have no account yet?</p>
-      </Box>
-
-      <Box className='register-btn-container'>
-        <button className='register-btn'>
-          Register
-        </button>
-      </Box>
-
     </Box>
   )
 }
