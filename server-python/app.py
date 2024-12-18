@@ -2,9 +2,9 @@ from flask import Flask, render_template,url_for,redirect,request,jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
-import logging
 import bcrypt
 from os import environ
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -30,55 +30,86 @@ try:
     # User collection
     userCollection = db["user"]
 
-    @app.route('/submit',methods=["POST"])
-    def submit_user():
-        # New user data
-        print(f"submitted")
+    def message_from_ai():
+        url = 'http://localhost:8000/message'
+        try:
+            # res = requests.post(url)
+            # res.raise_for_status()
+            # data = res.json()
+            # print(f'data: {data}')
+            data = 'something random'
+            return data
+
+           
+        except requests.RequestException as e:
+            print(f"error: {e}")
+            return None
+
+    @app.route('/login',methods=["POST"])
+    def login():
+        # User data
+        email = request.json.get('email')
+        password = request.json.get('password')
+
+        try:
+            # Checking if email exist in DB
+            registeredUser = userCollection.find_one({"email": email})
+            print(f"registeredUser: {registeredUser}; email: {registeredUser['email']}")
+
+            if registeredUser:
+                 # Verifying user's password
+                if bcrypt.checkpw(password.encode('utf-8'), registeredUser['password']):
+                     aiMessage = message_from_ai()
+                     if(aiMessage):
+                         return jsonify({"message": "User logged in successfully! - " + aiMessage}), 201
+                     else:
+                         return jsonify({"message": "Error OpenAI connection" }), 400 
+                else:
+                    print('incorrect password')
+                    return jsonify({"message": "Email or password are incorrect"}), 400
+            else:
+                print('email does not exist')
+                return jsonify({"message": "Email or password are incorrect"}), 400  
+
+        except Exception as e:
+            return jsonify({"message": "An error occurred, please try again later"},e), 500  
+    
+
+    # TODO: delete later
+    @app.route('/register',methods=['POST'])
+    def register():
         email = request.json.get('email')
         print(f"email: {email}")
         password = request.json.get('password')
         print(f"password: {password}")
-        # logging.debug(f"email: {email}, password: {password}")
 
-        # Checking if email already exist in DB
-        registeredUser = userCollection.find_one({"email": email})
+        try:
+            # Checking if email exist in DB
+            registeredUser = userCollection.find_one({"email": email})
 
-        if registeredUser:
-            print("user already exist")
-            return jsonify({"message": "User already registered"}), 400
-        else:
+            if registeredUser:
+                print("user already exist")
+                return jsonify({"message": "User already registered"}), 400
+           
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
             print(hashed_password)
             userCollection.insert_one({"email":email, "password":hashed_password})
-        
-        users = userCollection.find({})
-        for user in users:
-            print(f"email: {user.get('email')}")
 
-        return jsonify({"message": "User registered successfully!"}), 201
+            users = userCollection.find({})
+            for user in users:
+                print(f"email: {user.get('email')}")
 
+            return jsonify({"message": "User registered successfully!"}), 200
+            
 
-   
-    
-    # Insert a document
-    # user = {"email": "g@g.com", "password": "1234"}
-    # print(f"user: {user.email}")
-    # # result = collection.insert_one(user)  # Use insert_one to add the document
-    # # print(f"Inserted document ID: {result.inserted_id}")
-
-    # registeredUser = userCollection.find_one({"email": user.email})
-
-    # if registeredUser:
-    #     print("user already exist")
-    # else:
-    #     userCollection.insert_one(user)
-
-   
+           
+        except Exception as e:
+            return jsonify({"message": "An error occurred, please try again later"},e), 500  
 
 except Exception as e:
-    print("Connection failed:", e)
+    print("Connection failed:", e)  
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True, host='0.0.0.0', port="5000")
 
 

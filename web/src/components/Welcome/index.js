@@ -2,7 +2,7 @@ import React from 'react'
 import './Welcome.css'
 
 // MUI imports
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 
 // Assets import
 import illustration from '../../assets/Illustration.png'

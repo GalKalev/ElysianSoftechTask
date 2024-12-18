@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Form.css'
 
 // MUI imports
-import { Box, Button, FormControl, IconButton, Input, InputAdornment, TextField, Typography } from '@mui/material';
+import { Box, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -39,7 +39,30 @@ function Form() {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/submit', {
+            console.log(`email: ${formData.email}, password: ${formData.password}`);
+
+            const response = await axios.post('http://127.0.0.1:5000/login', {
+                password: formData.password,
+                email: formData.email,
+            });
+
+            alert(response.data.message)
+
+
+        } catch (error) {
+            console.error('Error submitting data:', error);
+
+        }
+    };
+
+
+    // TODO: delete function later and the onclick of the button
+    const handleRegister = async (e) => {
+        e.preventDefault();
+
+        try {
+            console.log(`REG email: ${formData.email}, password: ${formData.password}`);
+            const response = await axios.post('http://127.0.0.1:5000/register', {
                 password: formData.password,
                 email: formData.email,
             });
@@ -51,7 +74,7 @@ function Form() {
             console.error('Error submitting data:', error);
 
         }
-    };
+    }
 
     return (
         <Box className='form-container'>
@@ -129,6 +152,16 @@ function Form() {
 
             {/* Alternative log in methods - google and facebook and register button */}
             <AltLogin />
+
+            <Box className='register-container'>
+                <p className='register-text'>Have no account yet?</p>
+            </Box>
+
+            <Box className='register-btn-container'>
+                <button className='register-btn' onClick={handleRegister}>
+                    Register
+                </button>
+            </Box>
 
         </Box>
     )
