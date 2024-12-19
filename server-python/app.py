@@ -13,6 +13,9 @@ load_dotenv()
 CS_HOST_NAME=environ.get('CS_HOST_NAME')
 CS_USERNAME=environ.get('CS_USERNAME')
 CS_PASSWORD=environ.get('CS_PASSWORD')
+OPENAI_API_SERVER_URL=environ.get('OPENAI_API_SERVER_URL')
+OPENAI_API_SERVER_PORT=environ.get('OPENAI_API_SERVER_PORT')
+
 connection_string = f"mongodb+srv://{CS_USERNAME}:{CS_PASSWORD}@{CS_HOST_NAME}/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
 
 # Initialize the MongoClient
@@ -31,13 +34,12 @@ try:
     userCollection = db["user"]
 
     def message_from_ai():
-        url = 'http://localhost:8000/message'
+        url = f'http://{OPENAI_API_SERVER_URL}:{OPENAI_API_SERVER_PORT}/message'
         try:
-            # res = requests.post(url)
-            # res.raise_for_status()
-            # data = res.json()
-            # print(f'data: {data}')
-            data = 'something random'
+            res = requests.post(url)
+            res.raise_for_status()
+            data = res.json()
+            print(f'data: {data}')
             return data
 
            
