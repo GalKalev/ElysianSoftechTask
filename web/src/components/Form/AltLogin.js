@@ -8,7 +8,7 @@ import { Box, Typography } from '@mui/material'
 import googleImg from '../../assets/Google.png'
 import facebookImg from '../../assets/SocialIcon.png'
 
-function AltLogin() {
+function AltLogin({disabledBtns}) {
   return (
     <Box className='alt-container'>
       <Box className='or-container'>
@@ -20,7 +20,8 @@ function AltLogin() {
       </Box>
 
       <Box className='alt-btns-container'>
-        <button className='alt-btn'>
+        {/* Google button */}
+        <button className='alt-btn' disabled={disabledBtns}>
           <Box
             className='alt-btn-img'
             component={'img'}
@@ -31,7 +32,8 @@ function AltLogin() {
           <p className='alt-btn-text'>Google</p>
         </button>
 
-        <button className='alt-btn'>
+        {/* Facebook button */}
+        <button className='alt-btn' disabled={disabledBtns}>
           <Box
             className='alt-btn-img'
             component={'img'}

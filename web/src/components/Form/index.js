@@ -13,6 +13,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import AltLogin from './AltLogin';
 
 
+
 function Form() {
 
     // User data
@@ -21,15 +22,19 @@ function Form() {
         password: ''
     })
 
-
+    // State for password visibility
     const [showPassword, setShowPassword] = useState(false)
 
+    // State to disabled button when needed
+    const [disableBtns, setDisableBtns] = useState(false)
 
+    // Updates the user data state from the inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value })
     }
 
+    // Function to toggle password visibility
     const handlePasswordVisibility = () => {
         setShowPassword(!showPassword)
     }
@@ -39,9 +44,12 @@ function Form() {
         e.preventDefault();
 
         try {
+            setDisableBtns(true)
             console.log(`email: ${formData.email}, password: ${formData.password}`);
 
-            const response = await axios.post('http://127.0.0.1:5000/login', {
+            console.log(process.env.REACT_APP_SERVER_URL)
+
+            const response = await axios.post(`http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/login`, {
                 password: formData.password,
                 email: formData.email,
             });
@@ -51,7 +59,10 @@ function Form() {
 
         } catch (error) {
             console.error('Error submitting data:', error);
+            alert(error.response.data.message)
 
+        }finally{
+            setDisableBtns(false)
         }
     };
 
@@ -62,7 +73,7 @@ function Form() {
 
         try {
             console.log(`REG email: ${formData.email}, password: ${formData.password}`);
-            const response = await axios.post('http://127.0.0.1:5000/register', {
+            const response = await axios.post('http://20.217.19.24:5000/register', {
                 password: formData.password,
                 email: formData.email,
             });
@@ -78,17 +89,19 @@ function Form() {
 
     return (
         <Box className='form-container'>
+            {/* Log in title */}
             <Box sx={{ marginBottom: '4vh' }}>
                 <Typography variant='p' className='title'>
                     Log in
                 </Typography>
             </Box>
 
-
+            {/* User form */}
             <form onSubmit={handleSubmit} className='inputs-container'>
+                {/* Email input */}
                 <Box mb={2}>
                     <TextField
-                        className='email-input'
+                        className='input'
                         fullWidth
                         type='email'
                         name='email'
@@ -106,10 +119,10 @@ function Form() {
                         required
                     />
                 </Box>
-
+                {/* Password input */}
                 <Box mb={2}>
                     <TextField
-                        className='email-input'
+                        className='input'
                         fullWidth
                         type={showPassword ? 'text' : 'password'}
                         name='password'
@@ -129,18 +142,18 @@ function Form() {
                         required
                     />
                 </Box>
-
+                {/* Forgot password button */}
                 <Box className='forgot-btn-container'>
                     <button className='forgot-btn'>
                         Forgot password?
                     </button>
                 </Box>
-
+                {/* Log in button */}
                 <Box className='log-in-btn-container'>
                     <button
                         className='log-in-btn'
                         type='submit'
-                        disabled={formData.password === '' || formData === '' ? true : false}
+                        disabled={formData.password === '' || formData === '' || disableBtns ? true : false}
                     >
                         Log in
                     </button>
@@ -151,14 +164,14 @@ function Form() {
             </form>
 
             {/* Alternative log in methods - google and facebook */}
-            <AltLogin />
+            <AltLogin disableBtns={disableBtns}/>
 
             <Box className='register-container'>
                 <p className='register-text'>Have no account yet?</p>
             </Box>
-
+            {/* Register button */}
             <Box className='register-btn-container'>
-                <button className='register-btn' onClick={handleRegister}>
+                <button className='register-btn' onClick={handleRegister} disabled={disableBtns}>
                     Register
                 </button>
             </Box>
