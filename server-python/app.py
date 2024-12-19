@@ -9,6 +9,8 @@ import requests
 app = Flask(__name__)
 CORS(app)
 
+# CORS(app, origins=["http://localhost:19006", "http://192.168.137.1:19006"])
+
 load_dotenv()
 CS_HOST_NAME=environ.get('CS_HOST_NAME')
 CS_USERNAME=environ.get('CS_USERNAME')
@@ -48,6 +50,7 @@ try:
     @app.route('/login',methods=["POST"])
     def login():
         # User data
+        print('user logging in')
         email = request.json.get('email')
         password = request.json.get('password')
 
@@ -101,8 +104,6 @@ try:
 
             return jsonify({"message": "User registered successfully!"}), 200
             
-
-           
         except Exception as e:
             return jsonify({"message": "An error occurred, please try again later"},e), 500  
 

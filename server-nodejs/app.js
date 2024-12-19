@@ -25,7 +25,7 @@ app.post('/message',async(req,res) => {
         const completion = await openai.chat.completions.create({
             messages: [
                 { role: "developer", content: "You are a helpful assistant." },
-                { role: "user", content: "please wite me a short random message" },
+                { role: "user", content: "teach me a random fact in 5 letter sentence" },
             ],
             model: "gpt-3.5-turbo",
           });

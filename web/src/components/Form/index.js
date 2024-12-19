@@ -150,7 +150,7 @@ function Form() {
 
             </form>
 
-            {/* Alternative log in methods - google and facebook and register button */}
+            {/* Alternative log in methods - google and facebook */}
             <AltLogin />
 
             <Box className='register-container'>
