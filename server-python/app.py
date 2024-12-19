@@ -9,8 +9,6 @@ import requests
 app = Flask(__name__)
 CORS(app)
 
-# CORS(app, origins=["http://localhost:19006", "http://192.168.137.1:19006"])
-
 load_dotenv()
 CS_HOST_NAME=environ.get('CS_HOST_NAME')
 CS_USERNAME=environ.get('CS_USERNAME')
@@ -57,10 +55,11 @@ try:
         try:
             # Checking if email exist in DB
             registeredUser = userCollection.find_one({"email": email})
-            print(f"registeredUser: {registeredUser}; email: {registeredUser['email']}")
+           
 
             if registeredUser:
                  # Verifying user's password
+                print(f"registeredUser: {registeredUser}; email: {registeredUser['email']}")
                 if bcrypt.checkpw(password.encode('utf-8'), registeredUser['password']):
                      aiMessage = message_from_ai()
                      if(aiMessage):

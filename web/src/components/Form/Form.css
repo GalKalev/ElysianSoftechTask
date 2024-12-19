@@ -25,21 +25,23 @@
 
 }
 
-.email-input .MuiOutlinedInput-root {
+.input .MuiOutlinedInput-root {
     border-radius: 8px;
     border-color: #ccc;
+    font-family: "Lato";
+    font-weight: 400;
 }
 
-.email-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+.input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: #888;
 }
 
-.email-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: #5769D4;
     box-shadow: 0 0 0 4px rgba(87, 105, 212, 0.2);
 }
 
-.email-input .MuiInputLabel-root.Mui-focused {
+.input .MuiInputLabel-root.Mui-focused {
     color: #5769D4;
 }
 

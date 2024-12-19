@@ -9,7 +9,9 @@ const AtltLogin = ({ disableBtns }) => {
                 <Text style={[styles.orTxt, { fontFamily: 'Lato' }]}>Or</Text>
                 <View style={styles.orLine}></View>
             </View>
+
             <View style={styles.altBtnsContainer}>
+                {/* Google button */}
                 <Pressable
                     style={[styles.altBtn, disableBtns && styles.altBtnDisable]}
                     disabled={disableBtns}
@@ -17,7 +19,7 @@ const AtltLogin = ({ disableBtns }) => {
                     <Image source={require('../assets/Google.png')} style={styles.altBtnIcon} />
                     <Text style={[styles.altBtnTxt, { fontFamily: 'Lato' }]}>Google</Text>
                 </Pressable>
-
+                {/* Facebook button */}
                 <Pressable
                     style={[styles.altBtn, disableBtns && styles.altBtnDisable]}
                     disabled={disableBtns}>

@@ -1,6 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native';
 import { useCallback, useState } from 'react';
 import axios from 'axios';
+import {EXPO_SERVER_URL, EXPO_SERVER_PORT} from '@env'
 
 // Fonts imports
 import { useFonts } from '@expo-google-fonts/lato';
@@ -9,10 +10,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AltLogin from './components/AtltLogin';
 
-
-
 SplashScreen.preventAutoHideAsync();
-
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -23,10 +21,13 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // State for password visibility
   const [showPassword, setShowPassword] = useState(false)
 
+  // State to activates the focused style of an input
   const [focusedInput, setFocusedInput] = useState(null)
 
+  // State to disabled button when needed
   const [disableBtns, setDisableBtns] = useState(false)
 
   // Font import
@@ -40,6 +41,7 @@ export default function App() {
     return null;
   }
 
+  // Function to toggle password visibility
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword)
   }
@@ -52,30 +54,17 @@ export default function App() {
       console.log(`email: ${email}, password: ${password}`);
       setDisableBtns(true)
 
-      console.log(email.toLowerCase());
-      const response = await fetch('http://10.0.0.25:5000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          password,
-          email: email.toLowerCase(),
-        }),
+      const response = await axios.post(`http://${EXPO_SERVER_URL}:${EXPO_SERVER_PORT}/login`, {
+        password,
+        email: email.toLowerCase()
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        ToastAndroid.show(data.message, ToastAndroid.SHORT);
-      } else {
-        console.error('Error:', response.status);
-        throw Error();
-      }
+      ToastAndroid.show(response.data.message, ToastAndroid.SHORT)
 
 
     } catch (error) {
-      console.error('Error submitting data:', error.message);
-      console.log(error)
+      console.error('Error submitting data:', error.response.data.message);
+      ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT)
 
     } finally {
       setDisableBtns(false)
@@ -83,33 +72,16 @@ export default function App() {
   };
 
 
-  // TODO: delete function later and the onclick of the button
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    try {
-      console.log(`REG email: ${formData.email}, password: ${formData.password}`);
-      const response = await axios.post('http://10.0.0.25:5000/register', {
-        password,
-        email
-      });
-
-      console.log(response.data.message)
-
-
-    } catch (error) {
-      console.error('Error submitting data:', error);
-
-    }
-  }
-
-
   return (
     <View style={styles.container} onLayout={OnLayoutRootView}>
+      {/* Logo */}
       <Image source={require('./assets/logo.png')} style={styles.logo} />
+      {/* Log in title */}
       <Text style={[styles.title, { fontFamily: 'Lato' }]}>Log in</Text>
 
+      {/* User form */}
       <View style={styles.inputContainer}>
+        {/* Email input */}
         <View style={[styles.inputSection, , focusedInput === 'email' && styles.inputFocusedSection]}>
           <MaterialIcons style={styles.inputIcon} name='mail-outline' size={24} color={'#828282'} />
           <TextInput
@@ -123,6 +95,7 @@ export default function App() {
           />
         </View>
 
+        {/* Password input */}
         <View style={[styles.inputSection, , focusedInput === 'password' && styles.inputFocusedSection]}>
           <MaterialIcons style={styles.inputIcon} name='lock-outline' size={24} color={'#828282'} />
 
@@ -146,13 +119,15 @@ export default function App() {
 
       </View>
 
+      {/* Forgot password button */}
       <Pressable style={[styles.forgotContainer, disableBtns && styles.forgotDisable]} disabled={disableBtns}>
         <Text style={[styles.forgotTxt, { fontFamily: 'Lato' }]}>Forgot password?</Text>
       </Pressable>
 
+      {/* Log in button */}
       <Pressable
         onPress={handleSubmit}
-        style={[styles.loginBtnContainer, email === '' || password === '' ? styles.loginBtnContainerDisabled : styles.loginBtnContainerAble]}
+        style={[styles.loginBtnContainer, email === '' || password === '' || disableBtns? styles.loginBtnContainerDisabled : styles.loginBtnContainerAble]}
         disabled={email === '' || password === '' ? true : false}>
         <Text style={[styles.loginBtnTtx, { fontFamily: 'Lato' }]}>Log in</Text>
       </Pressable>
@@ -161,8 +136,8 @@ export default function App() {
       <AltLogin disableBtns={disableBtns} />
 
       <Text style={[styles.registerText, { fontFamily: 'Lato' }]}>Have no account yet?</Text>
-
-      <Pressable style={[styles.registerBtn, styles.forgotDisable]}>
+      {/* Register button */}
+      <Pressable style={[styles.registerBtn, disableBtns && styles.forgotDisable]}>
         <Text style={[styles.registerBtnTxt, { fontFamily: 'Lato' }]}>Register</Text>
       </Pressable>
 
@@ -198,7 +173,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
     gap: 14
-    // backgroundColor:'red'
   },
 
   inputSection: {
@@ -232,7 +206,6 @@ const styles = StyleSheet.create({
   forgotContainer: {
     display: 'flex',
     alignItems: 'flex-end',
-    // backgroundColor:'red',
     width: '80%',
     marginTop: 15
   },
