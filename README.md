@@ -122,11 +122,3 @@ node app.js
 2. Ensure both Python and Node.js servers are running for full functionality.
 
 3. Enter user information to trigger the Toast message with random text from the OpenAI API.
-
-### Example User for Testing
-
-Use the following credentials to test the login functionality:
-
-* Email: gal@email.com
-
-* Password: 123456
