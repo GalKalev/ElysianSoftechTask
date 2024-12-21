@@ -66,7 +66,12 @@ export default function App() {
 
     } catch (error) {
       console.error('Error submitting data:', error.response.data.message);
-      ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT)
+      if(error.response.data.message){
+        ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT)
+      }else{
+        ToastAndroid.show('Error: please try again later', ToastAndroid.SHORT)
+      }
+      
 
     } finally {
       setDisableBtns(false)

@@ -57,7 +57,12 @@ function Form() {
 
         } catch (error) {
             console.error('Error submitting data:', error);
-            alert(error.response.data.message)
+            if(error.response.data.message){
+                alert(error.response.data.message)
+            }else{
+                alert('Error: please try again later')
+            }
+            
 
         }finally{
             setDisableBtns(false)
