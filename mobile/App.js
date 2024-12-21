@@ -6,8 +6,10 @@ import {EXPO_SERVER_URL, EXPO_SERVER_PORT} from '@env'
 // Fonts imports
 import { useFonts } from '@expo-google-fonts/lato';
 import * as SplashScreen from 'expo-splash-screen'
-
+// Password icons import
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+
+// Components import
 import AltLogin from './components/AtltLogin';
 
 SplashScreen.preventAutoHideAsync();

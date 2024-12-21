@@ -47,8 +47,6 @@ function Form() {
             setDisableBtns(true)
             console.log(`email: ${formData.email}, password: ${formData.password}`);
 
-            console.log(process.env.REACT_APP_SERVER_URL)
-
             const response = await axios.post(`http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/login`, {
                 password: formData.password,
                 email: formData.email,
@@ -67,13 +65,13 @@ function Form() {
     };
 
 
-    // TODO: delete function later and the onclick of the button
+    // Function for registering users for testing
     const handleRegister = async (e) => {
         e.preventDefault();
 
         try {
             console.log(`REG email: ${formData.email}, password: ${formData.password}`);
-            const response = await axios.post('http://20.217.19.24:5000/register', {
+            const response = await axios.post(`http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/register`, {
                 password: formData.password,
                 email: formData.email,
             });
@@ -169,6 +167,7 @@ function Form() {
             <Box className='register-container'>
                 <p className='register-text'>Have no account yet?</p>
             </Box>
+            
             {/* Register button */}
             <Box className='register-btn-container'>
                 <button className='register-btn' onClick={handleRegister} disabled={disableBtns}>
