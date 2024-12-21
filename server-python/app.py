@@ -79,7 +79,7 @@ try:
             return jsonify({"message": "An error occurred, please try again later"},e), 500  
     
 
-    # TODO: delete later
+    # Function to register a user with bcrypt for testing
     @app.route('/register',methods=['POST'])
     def register():
         email = request.json.get('email')
