@@ -65,8 +65,8 @@ export default function App() {
 
 
     } catch (error) {
-      console.error('Error submitting data:', error.response.data.message);
-      if(error.response.data.message){
+      console.error('Error submitting data:', error);
+      if(error.response){
         ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT)
       }else{
         ToastAndroid.show('Error: please try again later', ToastAndroid.SHORT)

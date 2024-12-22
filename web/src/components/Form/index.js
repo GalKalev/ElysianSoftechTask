@@ -57,7 +57,7 @@ function Form() {
 
         } catch (error) {
             console.error('Error submitting data:', error);
-            if(error.response.data.message){
+            if(error.response){
                 alert(error.response.data.message)
             }else{
                 alert('Error: please try again later')
